@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পোস্ট</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">📝 আমার ব্লগ</a>
+            <nav>
+                <a href="index.html">হোম</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="single-post" id="postContent">
+            <p>লোড হচ্ছে...</p>
+        </article>
+        <a href="index.html" class="back-btn">← সব পোস্টে ফিরে যান</a>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 আমার ব্লগ</p>
+        </div>
+    </footer>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const postId = parseInt(params.get('id'));
+
+        fetch('posts.json')
+            .then(res => res.json())
+            .then(posts => {
+                const post = posts.find(p => p.id === postId);
+                const container = document.getElementById('postContent');
+                if (!post) {
+                    container.innerHTML = '<h1>পোস্ট পাওয়া যায়নি</h1>';
+                    return;
+                }
+                document.title = post.title + ' | আমার ব্লগ';
+                container.innerHTML = `
+                    <img src="${post.image}" alt="${post.title}" class="post-img">
+                    <span class="category">${post.category}</span>
+                    <h1>${post.title}</h1>
+                    <div class="meta">📅 ${post.date} | ✍️ ${post.author}</div>
+                    <div class="content">${post.content.replace(/\n/g, '<br>')}</div>
+                `;
+            });
+    </script>
+</body>
+</html>
