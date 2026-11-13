@@ -2,7 +2,7 @@ let allPosts = [];
 let currentCategory = 'All';
 
 // পোস্ট লোড
-fetch('posts.json')
+fetch('./posts.json')
     .then(res => res.json())
     .then(data => {
         allPosts = data;
